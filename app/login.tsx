@@ -10,7 +10,6 @@ import { useRouter } from "expo-router";
 import React from "react";
 import {
   Image,
-  ImageBackground,
   StyleSheet, Text,
   TouchableOpacity, View
 } from "react-native";
@@ -33,16 +32,19 @@ export default function LoginScreen() {
 
   return (
     <>
-      <ImageBackground
-        source={require("./assets/fondo.png")}
-        style={{ flex: 1 }}
-        imageStyle={{ opacity: 0.2 }} // transparencia
-      >
-        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-          <Text style={{ fontSize: 24 }}>Hola, bienvenido</Text>
-          {/* acá van tus botones */}
-        </View>
-      </ImageBackground>
+      <Image
+        source={require("../assets/paleta.png")} // ya recortada en .PNG
+        style={{
+        position: "absolute",
+        right: 0, // pegada al borde derecho
+        top: 0,
+        width: "100%",
+        height: "100%",
+        resizeMode: "contain",
+          opacity: 0.08, // 👈 transparencia
+        }}
+      />
+      
       <View style={styles.container}>
         {/* Título */}
         <Text style={styles.title}>Hola,{"\n"}bienvenido</Text>
@@ -66,7 +68,7 @@ export default function LoginScreen() {
         <View style={styles.registerContainer}>
           <Text style={styles.registerText}>¿No tenés cuenta?</Text>
           <TouchableOpacity style={styles.circleButton} onPress={() => router.push("/register")}>
-            <AntDesign name="arrowright" size={20} color="#fff" />
+            <AntDesign name="arrowright" size={24} color="#fff" />
           </TouchableOpacity>
         </View>
       </View>
@@ -85,10 +87,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "ffffff",
     paddingHorizontal: 0,
+    paddingVertical: 0,
   },
   title: {
     fontSize: 40,
-    fontFamily: "Montserrat_500Medium",
+    fontFamily: "Montserrat_400Regular",
     color: "#222222",
     marginBottom: 20,
     paddingHorizontal: 20,
@@ -105,7 +108,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     elevation: 3,
     width: "54%",
-    alignSelf: "flex-start",
     height: 48,
   },
   icon: {
@@ -115,17 +117,17 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   iconApple: {
-    marginLeft: 12,
+    marginLeft: 20,
   },
   buttonText: {
     fontSize: 16,
     fontFamily: "Montserrat_400Regular",
-    color: "#9AA0A6",
+    color: "#444",
     fontWeight: "500",
   },
   registerContainer: {
     position: "absolute",
-    bottom: 40,
+    bottom: 0,
     left: 20,
     right: 20,
     flexDirection: "row",
@@ -134,16 +136,23 @@ const styles = StyleSheet.create({
   },
   registerText: {
     fontSize: 14,
+    paddingBottom: 14,
     color: "#444",
     marginRight: 12,
     fontFamily: "Montserrat_400Regular",
   },
   circleButton: {
     backgroundColor: "#00BFFF",
-    width: 44,
-    height: 44,
-    borderRadius: 20,
+    width: 48,
+    paddingBottom: 14,
+    height: 68,
+    borderTopRightRadius: 28,
+    borderBottomRightRadius: 0,
+    borderBottomLeftRadius: 0,
+    borderTopLeftRadius: 28,
     justifyContent: "center",
     alignItems: "center",
+    alignSelf: "flex-start",
+    elevation: 3,
   },
 });
