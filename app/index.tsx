@@ -8,7 +8,7 @@ export default function SplashScreen() {
   useEffect(() => {
     const timer = setTimeout(() => {
       router.replace("/login");
-    }, 2000);
+    }, 2500);
     return () => clearTimeout(timer);
   }, []);
 
@@ -16,14 +16,16 @@ export default function SplashScreen() {
     <View style={styles.container}>
       {/* Logo */}
       <Image 
-        source={require("../assets/logo.png")}  // 👈 exportá de Figma
+        source={require("../assets/logo.png")}  
         style={styles.logo}
         resizeMode="contain"
       />
       
+
+     
       {/* Tagline */}
       <Text style={styles.tagline}>Pádel sin vueltas</Text>
-    </View>
+      </View>
   );
 }
 
@@ -35,13 +37,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#0B0F14", 
   },
   logo: {
-    width: 180, // ajustá según tamaño
+    width: 230, 
     height: 60,
-    marginBottom: 8,
+    marginBottom: 6,
   },
   tagline: {
     color: "#00BFFF",
     fontSize: 14,
     letterSpacing: 0.5,
+    justifyContent: "flex-end",
+    alignItems: "flex-end"
   },
 });
