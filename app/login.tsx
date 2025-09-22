@@ -1,3 +1,4 @@
+import AppText from "@/components/AppText";
 import {
   Montserrat_400Regular,
   Montserrat_500Medium,
@@ -10,7 +11,7 @@ import { useRouter } from "expo-router";
 import React from "react";
 import {
   Image,
-  StyleSheet, Text,
+  StyleSheet,
   TouchableOpacity, View
 } from "react-native";
 
@@ -47,11 +48,11 @@ export default function LoginScreen() {
       
       <View style={styles.container}>
         {/* Título */}
-        <Text style={styles.title}>Hola,{"\n"}bienvenido</Text>
+        <AppText variant="regular" style={styles.title}>Hola,{"\n"}bienvenido</AppText>
 
         {/* Botón Google */}
         <TouchableOpacity style={styles.button} onPress={() => router.push("/home")}>
-          <Text style={styles.buttonText}>Ingresar con Google</Text>
+          <AppText variant="regular" style={styles.buttonText}>Ingresar con Google</AppText>
           <Image
             source={require("../assets/google.png")}
             style={styles.icon}
@@ -60,13 +61,13 @@ export default function LoginScreen() {
 
         {/* Botón Apple */}
         <TouchableOpacity style={styles.button} onPress={() => router.push("/home")}>
-          <Text style={styles.buttonText}>Ingresar con Apple</Text>
+          <AppText style={styles.buttonText}>Ingresar con Apple</AppText>
           <AntDesign name="apple1" size={26} color="black" style={styles.iconApple} />
         </TouchableOpacity>
 
         {/* Registro abajo */}
         <View style={styles.registerContainer}>
-          <Text style={styles.registerText}>¿No tenés cuenta?</Text>
+          <AppText style={styles.registerText}>¿No tenés cuenta?</AppText>
           <TouchableOpacity style={styles.circleButton} onPress={() => router.push("/register")}>
             <AntDesign name="arrowright" size={24} color="#fff" />
           </TouchableOpacity>
@@ -121,9 +122,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 16,
-    fontFamily: "Montserrat_400Regular",
     color: "#444",
-    fontWeight: "500",
   },
   registerContainer: {
     position: "absolute",
