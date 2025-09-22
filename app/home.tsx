@@ -1,16 +1,29 @@
 import { Ionicons } from "@expo/vector-icons";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Image, ScrollView, StyleSheet, Switch, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  View
+} from "react-native";
+import AppText from "../components/AppText";
+
+
+
 
 export default function HomeScreen() {
   const router = useRouter();
 
- 
-  // Estados de los inputs
+  // Estados
   const [date, setDate] = useState("");
   const [hour, setHour] = useState("");
   const [indoor, setIndoor] = useState(true);
+
+  // Mostrar/ocultar pickers
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [showTimePicker, setShowTimePicker] = useState(false);
 
   // Estados de foco
   const [isDateFocused, setDateFocused] = useState(false);
@@ -34,70 +47,98 @@ export default function HomeScreen() {
       {/* FORM */}
       <View style={styles.form}>
         {/* Input Fecha */}
-        <View style={[
-          styles.inputWrapper,
-          { borderColor: isDateFocused ? "#00AEEF" : "#7B94A4" }
-        ]}>
-          <TextInput
-            style={styles.input}
-            placeholder="¿Qué día querés jugar?"
-            placeholderTextColor="#555"
-            value={date}
-            onChangeText={setDate}
-            onFocus={() => setDateFocused(true)}
-            onBlur={() => setDateFocused(false)}
-          />
+        <TouchableOpacity 
+          style={[
+            styles.inputWrapper, 
+            { borderColor: isDateFocused ? "#00AEEF" : "#7B94A4" }
+          ]} 
+          onPress={() => setShowDatePicker(true)}
+          onFocus={() => setDateFocused(true)}
+          onBlur={() => setDateFocused(false)}
+        >
+          <AppText style={{ flex: 1, fontSize: 16, color: date ? "#333" : "#555" }}>
+            {date || "¿Qué día querés jugar?"}
+          </AppText>
           <Ionicons name="calendar-outline" size={20} color="#00AEEF" style={styles.inputIcon} />
-        </View>
+        </TouchableOpacity>
+
+        {showDatePicker && (
+          <DateTimePicker
+            value={new Date()}
+            mode="date"
+            display="default"
+            onChange={(event, selectedDate) => {
+              setShowDatePicker(false);
+              if (selectedDate) setDate(selectedDate.toLocaleDateString());
+            }}
+          />
+        )}
 
         {/* Input Hora */}
-        <View style={[
-          styles.inputWrapper,
-          { borderColor: isHourFocused ? "#00AEEF" : "#7B94A4" }
-        ]}>
-          <TextInput
-            style={styles.input}
-            placeholder="¿A qué hora?"
-            placeholderTextColor="#555"
-            value={hour}
-            onChangeText={setHour}
-            onFocus={() => setHourFocused(true)}
-            onBlur={() => setHourFocused(false)}
-          />
+        <TouchableOpacity 
+          style={[
+            styles.inputWrapper, 
+            { borderColor: isHourFocused ? "#00AEEF" : "#7B94A4" }
+          ]} 
+          onPress={() => setShowTimePicker(true)}
+          onFocus={() => setHourFocused(true)}
+          onBlur={() => setHourFocused(false)}
+        >
+          <AppText style={{ flex: 1, fontSize: 16, color: hour ? "#333" : "#555" }}>
+            {hour || "¿A qué hora?"}
+          </AppText>
           <Ionicons name="time-outline" size={20} color="#00AEEF" style={styles.inputIcon} />
-        </View>
+        </TouchableOpacity>
 
-        {/* Switch Indoor/Outdoor */}
-        <View style={styles.switchWrapper}>
-          <Switch 
-            value={indoor} 
-            onValueChange={setIndoor}
-            trackColor={{ false: "#ccc", true: "#00AEEF" }}
-            thumbColor="#fff"  
+        {showTimePicker && (
+          <DateTimePicker
+            value={new Date()}
+            mode="time"
+            display="default"
+            is24Hour={true}
+            onChange={(event, selectedTime) => {
+              setShowTimePicker(false);
+              if (selectedTime) {
+                const h = selectedTime.getHours().toString().padStart(2, "0");
+                const m = selectedTime.getMinutes().toString().padStart(2, "0");
+                setHour(`${h}:${m}`);
+              }
+            }}
           />
-          <Text style={styles.switchLabel}> indoor | outdoor </Text>
+        )}
+
+        {/* Toggle Indoor/Outdoor */}
+        <View style={styles.toggleWrapper}>
+          <TouchableOpacity 
+            style={[styles.toggleBtn, indoor && styles.toggleBtnActive]} 
+            onPress={() => setIndoor(true)}
+            >
+            <AppText style={indoor ? styles.toggleTextActive : styles.toggleText}>Indoor</AppText>
+          </TouchableOpacity>
+
+          <TouchableOpacity 
+            style={[styles.toggleBtn, !indoor && styles.toggleBtnActive]} 
+            onPress={() => setIndoor(false)}
+            >
+            <AppText style={!indoor ? styles.toggleTextActive : styles.toggleText}>Outdoor</AppText>
+          </TouchableOpacity>
         </View>
 
         {/* Botón Buscar */}
         <TouchableOpacity style={styles.searchBtn}>
-          <Text style={styles.searchBtnText}>Buscar</Text>
+          <AppText variant="semibold" style={styles.searchBtnText}>
+            Buscar
+          </AppText>
         </TouchableOpacity>
       </View>
 
-      {/* RESULTS */}
-      
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ flexGrow: 0 }}>
-        <View style={styles.card}>
-          <Image source={require("../assets/test.jpg")} style={styles.cardImage} />
-          <Text style={styles.cardTitle}>El guardián Padel</Text>
-          <Text style={styles.cardText}>Carrasco 825, Flores</Text>
-          <Text style={styles.cardText}>+54 9 11 6974-0825</Text>
-          <Text style={styles.cardText}>$15.000 | sintético | indoor | led</Text>
-          <TouchableOpacity style={styles.reserveBtn} onPress={() => router.push("/court/1")}>
-            <Text style={{ color: "#fff", fontWeight: "500", letterSpacing: 1 }}>Reservar</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+      {/* RESULTS (placeholder de carousel futuro) */}
+      <View style={{ marginTop: 20 }}>
+        <AppText variant="regular" style={{ fontSize: 16, marginBottom: 10 }}>
+          Resultados
+        </AppText>
+        {/* Aquí irá el carousel con cards de canchas */}
+      </View>
 
       {/* BOTTOM NAV */}
       <View style={styles.bottomNav}>
@@ -139,15 +180,37 @@ const styles = StyleSheet.create({
   switchLabel: { marginLeft: 8, fontSize: 14, color: "#555" },
 
   searchBtn: { backgroundColor: "#00AEEF", paddingVertical: 14, alignItems: "center", borderRadius: 25 },
-  searchBtnText: { color: "#fff", fontWeight: "600", fontSize: 16, letterSpacing: 1 },
-
-  card: { width: 200, borderRadius: 12, borderWidth: 1, borderColor: "#ddd", marginRight: 16, overflow: "hidden", marginTop: 10, paddingBottom: 12 },
-  cardImage: { width: "100%", height: 220 },
-  cardTitle: { fontWeight: "bold", fontSize: 16, margin: 8, alignItems: "center", justifyContent: "center" },
-  cardText: { fontSize: 12, marginHorizontal: 8, marginBottom: 3 },
-
-  reserveBtn: { backgroundColor: "#00AEEF", paddingVertical: 8, margin: 8, borderRadius: 10, alignItems: "center" },
-  reserveBtnText: { letterSpacing: 1.5 },
+  searchBtnText: { color: "#fff", fontSize: 16, letterSpacing: 1 },
 
   bottomNav: { flexDirection: "row", justifyContent: "space-around", paddingVertical: 12, borderTopWidth: 1, borderColor: "#eee", marginTop: "auto" },
+
+  toggleWrapper: {
+  flexDirection: "row",
+  justifyContent: "center",
+  marginBottom: 20,
+  borderRadius: 8,
+  overflow: "hidden",
+  borderWidth: 1,
+  borderColor: "#00AEEF"
+  },
+  toggleBtn: {
+    flex: 1,
+    paddingVertical: 12,
+    alignItems: "center",
+    backgroundColor: "#fff"
+  },
+    toggleBtnActive: {
+    backgroundColor: "#00AEEF"
+  },
+  toggleText: {
+    color: "#00AEEF",
+    fontSize: 14,
+    fontWeight: "500"
+  },
+  toggleTextActive: {
+    color: "#fff",
+    fontSize: 14,
+    fontWeight: "600"
+  },
+
 });
