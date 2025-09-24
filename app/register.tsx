@@ -12,7 +12,7 @@ export default function RegisterScreen() {
       Alert.alert("Error", "Todos los campos son obligatorios");
       return;
     }
-    // Aquí en el futuro se enviarán los datos
+    // Aquí se enviarán los datos
     router.replace("/home");
   };
 
