@@ -133,7 +133,7 @@ export default function HomeScreen() {
       </View>
 
       {/* RESULTS (placeholder de carousel futuro) */}
-      <View style={{ marginTop: 20 }}>
+      <View style={{ marginTop: 20 }}>  
         <AppText variant="regular" style={{ fontSize: 16, marginBottom: 10 }}>
           Resultados
         </AppText>
