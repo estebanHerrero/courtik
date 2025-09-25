@@ -1,6 +1,6 @@
 import AppText from "@/components/AppText";
 import React, { useState } from "react";
-import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
+import { Image, StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 
 export default function RegisterScreen() {
   const [nombre, setNombre] = useState("");
@@ -22,6 +22,18 @@ export default function RegisterScreen() {
 
   return (
     <View style={styles.container}>
+      {/* HEADER */}
+      <View style={styles.header}>
+        <Image 
+          source={require("../assets/logo.png")}  
+          style={styles.logo}
+          resizeMode="contain"
+        />
+      </View>
+
+      
+
+
       <AppText variant="medium" style={styles.title}>Crear cuenta</AppText>
 
       <TextInput
@@ -73,13 +85,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+    padding: 16,
+    paddingTop: 60,
+  },
+  header: {
+    flexDirection: "row",
     justifyContent: "center",
-    paddingHorizontal: 30,
+    alignItems: "center",
+    marginBottom: 8
+  },
+  logo: {
+    width: 120,
+    height: 60,
+    marginBottom: 8
   },
   title: {
     fontSize: 22,
     color: "#333",
-    marginBottom: 30,
+    marginBottom: 20,
   },
   input: {
     borderWidth: 1,
@@ -89,16 +112,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   button: {
-    backgroundColor: "#00BFFF", // celeste estilo Figma
-    padding: 15,
+    backgroundColor: "#00BFFF",
+    paddingVertical: 14,
     borderRadius: 25,
     alignItems: "center",
-    marginTop: 10,
-    paddingVertical: 14,
   },
   buttonText: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: 18,
     letterSpacing: 1,
   },
 });
