@@ -34,7 +34,7 @@ export default function LoginScreen() {
   return (
     <>
       <Image
-        source={require("../assets/paleta.png")} // ya recortada en .PNG
+        source={require("../assets/paleta.png")} 
         style={{
         position: "absolute",
         right: 0, // pegada al borde derecho

@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
   switchLabel: { marginLeft: 8, fontSize: 14, color: "#555" },
 
   searchBtn: { backgroundColor: "#00AEEF", paddingVertical: 14, alignItems: "center", borderRadius: 25 },
-  searchBtnText: { color: "#fff", fontSize: 16, letterSpacing: 1 },
+  searchBtnText: { color: "#fff", fontSize: 18, letterSpacing: 1 },
 
   bottomNav: { flexDirection: "row", justifyContent: "space-around", paddingVertical: 12, borderTopWidth: 1, borderColor: "#eee", marginTop: "auto" },
 
