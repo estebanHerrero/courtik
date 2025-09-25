@@ -1,12 +1,20 @@
 import AppText from "@/components/AppText";
+import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
-import { Image, StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 export default function RegisterScreen() {
   const [nombre, setNombre] = useState("");
   const [apodo, setApodo] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const [focusedInput, setFocusedInput] = useState(null);
 
@@ -17,24 +25,23 @@ export default function RegisterScreen() {
 
   const getInputStyle = (fieldName) => [
     styles.input,
-    { borderColor: focusedInput === fieldName ? "#00AEEF" : "#7B94A4" }
+    { borderColor: focusedInput === fieldName ? "#00AEEF" : "#7B94A4" },
   ];
 
   return (
     <View style={styles.container}>
       {/* HEADER */}
       <View style={styles.header}>
-        <Image 
-          source={require("../assets/logo.png")}  
+        <Image
+          source={require("../assets/logo.png")}
           style={styles.logo}
           resizeMode="contain"
         />
       </View>
 
-      
-
-
-      <AppText variant="medium" style={styles.title}>Crear cuenta</AppText>
+      <AppText variant="medium" style={styles.title}>
+        Crear cuenta
+      </AppText>
 
       <TextInput
         style={getInputStyle("nombre")}
@@ -64,18 +71,35 @@ export default function RegisterScreen() {
         onBlur={() => setFocusedInput(null)}
       />
 
-      <TextInput
-        style={getInputStyle("password")}
-        placeholder="Contraseña"
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-        onFocus={() => setFocusedInput("password")}
-        onBlur={() => setFocusedInput(null)}
-      />
+      {/* Contraseña con ojo 👁️ */}
+      <View
+        style={[
+          getInputStyle("password"),
+          { flexDirection: "row", alignItems: "center", paddingVertical: 10 },
+        ]}
+      >
+        <TextInput
+          style={{ flex: 1, fontSize: 16, paddingVertical: 0 }}
+          placeholder="Contraseña"
+          secureTextEntry={!showPassword}
+          value={password}
+          onChangeText={setPassword}
+          onFocus={() => setFocusedInput("password")}
+          onBlur={() => setFocusedInput(null)}
+        />
+        <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+          <Ionicons
+            name={showPassword ? "eye-off-outline" : "eye-outline"}
+            size={22}
+            color="#00AEEF"
+          />
+        </TouchableOpacity>
+      </View>
 
       <TouchableOpacity style={styles.button} onPress={handleRegister}>
-        <AppText variant="semibold" style={styles.buttonText}>Registrate</AppText>
+        <AppText variant="semibold" style={styles.buttonText}>
+          Registrate
+        </AppText>
       </TouchableOpacity>
     </View>
   );
@@ -92,12 +116,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 8
+    marginBottom: 8,
   },
   logo: {
     width: 120,
     height: 60,
-    marginBottom: 8
+    marginBottom: 8,
   },
   title: {
     fontSize: 22,
