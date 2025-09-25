@@ -11,10 +11,10 @@ import { useRouter } from "expo-router";
 import React from "react";
 import {
   Image,
+  Platform,
   StyleSheet,
   TouchableOpacity, View
 } from "react-native";
-
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -50,20 +50,22 @@ export default function LoginScreen() {
         {/* Título */}
         <AppText variant="regular" style={styles.title}>Hola,{"\n"}bienvenido</AppText>
 
-        {/* Botón Google */}
+        {Platform.OS === "android" && (
         <TouchableOpacity style={styles.button} onPress={() => router.push("/home")}>
           <AppText variant="regular" style={styles.buttonText}>Ingresar con Google</AppText>
           <Image
             source={require("../assets/google.png")}
             style={styles.icon}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> 
+        )}
 
-        {/* Botón Apple */}
+        {Platform.OS === "ios" && (
         <TouchableOpacity style={styles.button} onPress={() => router.push("/home")}>
           <AppText style={styles.buttonText}>Ingresar con Apple</AppText>
           <AntDesign name="apple1" size={26} color="black" style={styles.iconApple} />
         </TouchableOpacity>
+      )}
 
         {/* Registro abajo */}
         <View style={styles.registerContainer}>

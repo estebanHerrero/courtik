@@ -134,7 +134,7 @@ export default function HomeScreen() {
 
       {/* RESULTS (placeholder de carousel futuro) */}
       <View style={{ marginTop: 20 }}>  
-        <AppText variant="regular" style={{ fontSize: 16, marginBottom: 10 }}>
+        <AppText variant="semibold" style={{ fontSize: 16, marginBottom: 10 }}>
           Resultados
         </AppText>
         {/* Aquí irá el carousel con cards de canchas */}
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
   inputIcon: { marginLeft: 8 },
 
   switchWrapper: { flexDirection: "row", alignItems: "center", marginBottom: 20 },
-  switchLabel: { marginLeft: 8, fontSize: 14, color: "#555" },
+  switchLabel: { marginLeft: 8, fontSize: 14, color: "#333" },
 
   searchBtn: { backgroundColor: "#00AEEF", paddingVertical: 14, alignItems: "center", borderRadius: 25 },
   searchBtnText: { color: "#fff", fontSize: 18, letterSpacing: 1 },
@@ -187,15 +187,16 @@ const styles = StyleSheet.create({
   toggleWrapper: {
   flexDirection: "row",
   justifyContent: "center",
-  marginBottom: 20,
+  marginBottom: 26,
   borderRadius: 8,
   overflow: "hidden",
   borderWidth: 1,
-  borderColor: "#00AEEF"
+  borderColor: "#00AEEF",
+  width: "50%",
   },
   toggleBtn: {
     flex: 1,
-    paddingVertical: 12,
+    paddingVertical: 6,
     alignItems: "center",
     backgroundColor: "#fff"
   },
@@ -205,12 +206,11 @@ const styles = StyleSheet.create({
   toggleText: {
     color: "#00AEEF",
     fontSize: 14,
-    fontWeight: "500"
   },
   toggleTextActive: {
     color: "#fff",
     fontSize: 14,
-    fontWeight: "600"
   },
 
 });
+
