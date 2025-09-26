@@ -9,9 +9,7 @@ import {
   View
 } from "react-native";
 import AppText from "../components/AppText";
-
-
-
+import CourtCarousel from "../components/CourtCarousel"; // ✅ Import del carousel
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -21,11 +19,9 @@ export default function HomeScreen() {
   const [hour, setHour] = useState("");
   const [indoor, setIndoor] = useState(true);
 
-  // Mostrar/ocultar pickers
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showTimePicker, setShowTimePicker] = useState(false);
 
-  // Estados de foco
   const [isDateFocused, setDateFocused] = useState(false);
   const [isHourFocused, setHourFocused] = useState(false);
 
@@ -112,14 +108,14 @@ export default function HomeScreen() {
           <TouchableOpacity 
             style={[styles.toggleBtn, indoor && styles.toggleBtnActive]} 
             onPress={() => setIndoor(true)}
-            >
+          >
             <AppText style={indoor ? styles.toggleTextActive : styles.toggleText}>Indoor</AppText>
           </TouchableOpacity>
 
           <TouchableOpacity 
             style={[styles.toggleBtn, !indoor && styles.toggleBtnActive]} 
             onPress={() => setIndoor(false)}
-            >
+          >
             <AppText style={!indoor ? styles.toggleTextActive : styles.toggleText}>Outdoor</AppText>
           </TouchableOpacity>
         </View>
@@ -132,12 +128,13 @@ export default function HomeScreen() {
         </TouchableOpacity>
       </View>
 
-      {/* RESULTS (placeholder de carousel futuro) */}
-      <View style={{ marginTop: 20 }}>  
+      {/* RESULTS + CAROUSEL */}
+      <View style={{ marginTop: 20 }}>
         <AppText variant="semibold" style={{ fontSize: 16, marginBottom: 10 }}>
           Resultados
         </AppText>
-        {/* Aquí irá el carousel con cards de canchas */}
+        {/* 🔵 Aquí mostramos el carousel de canchas */}
+        <CourtCarousel />
       </View>
 
       {/* BOTTOM NAV */}
@@ -152,7 +149,6 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#fff", padding: 16, paddingTop: 60 },
-
   header: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 20 },
   logo: { width: 120, height: 60, marginBottom: 8 },
   headerRight: { flexDirection: "row", alignItems: "center" },
@@ -168,16 +164,7 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: "#fff"
   },
-  input: { 
-    flex: 1, 
-    fontSize: 16,  
-    color: "#333",
-    paddingVertical: 10
-  },
   inputIcon: { marginLeft: 8 },
-
-  switchWrapper: { flexDirection: "row", alignItems: "center", marginBottom: 20 },
-  switchLabel: { marginLeft: 8, fontSize: 14, color: "#333" },
 
   searchBtn: { backgroundColor: "#00AEEF", paddingVertical: 14, alignItems: "center", borderRadius: 25 },
   searchBtnText: { color: "#fff", fontSize: 18, letterSpacing: 1 },
@@ -185,14 +172,14 @@ const styles = StyleSheet.create({
   bottomNav: { flexDirection: "row", justifyContent: "space-around", paddingVertical: 12, borderTopWidth: 1, borderColor: "#eee", marginTop: "auto" },
 
   toggleWrapper: {
-  flexDirection: "row",
-  justifyContent: "center",
-  marginBottom: 26,
-  borderRadius: 8,
-  overflow: "hidden",
-  borderWidth: 1,
-  borderColor: "#00AEEF",
-  width: "50%",
+    flexDirection: "row",
+    justifyContent: "center",
+    marginBottom: 26,
+    borderRadius: 8,
+    overflow: "hidden",
+    borderWidth: 1,
+    borderColor: "#00AEEF",
+    width: "50%",
   },
   toggleBtn: {
     flex: 1,
@@ -200,7 +187,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#fff"
   },
-    toggleBtnActive: {
+  toggleBtnActive: {
     backgroundColor: "#00AEEF"
   },
   toggleText: {
@@ -211,6 +198,4 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 14,
   },
-
 });
-
