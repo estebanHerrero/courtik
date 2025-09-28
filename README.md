@@ -48,3 +48,25 @@ Join our community of developers creating universal apps.
 
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+
+
+
+## Capturas de la app.
+
+### Pantalla de inicio (Splash)
+![Splash](./assets/screenshots/splash.png)
+
+### Registro por login
+![login](./assets/screenshots/register.png)
+
+### Registro de usuario
+![Registro](./assets/screenshots/login.png)
+
+### Carousel
+![Carousel](./assets/screenshots/carousel.png)
+
+### Fecha
+![Fecha](./assets/screenshots/fecha.png)
+
+### Hora
+![Hora](./assets/screenshots/hora.png)
