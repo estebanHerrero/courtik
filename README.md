@@ -54,7 +54,7 @@ Join our community of developers creating universal apps.
 ## Capturas de la app.
 
 ### Pantalla de inicio (Splash)
-![Splash](./assets/screenshots/splash.png)
+![Splash](./assets/screenshots/splash.png) 
 
 ### Registro por login
 ![login](./assets/screenshots/register.png)
@@ -70,3 +70,4 @@ Join our community of developers creating universal apps.
 
 ### Hora
 ![Hora](./assets/screenshots/hora.png)
+
