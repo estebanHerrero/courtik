@@ -11,7 +11,7 @@
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
     // == entorno de los modulos ==
-    "module": "nodenext", //es para el import/export
+    "module": "commonjs", //es para el import/export
     "target": "esnext", //genera el js para que sea compatible con node
     "moduleResolution": "node", // este resuelve los imports 
     "esModuleInterop": true, // este deja usar los import  por ejemplo import express from 

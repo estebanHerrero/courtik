@@ -9,7 +9,7 @@ app.use(express.json());
 
 // Ruta de prueba
 app.get("/", (_req: Request, res: Response) => {
-  res.send("Backend en marcha 🚀");
+  res.send("Backend en marcha PROBANDO 3, 2, 1...");
 });
 
 // Arrancar el servidor
