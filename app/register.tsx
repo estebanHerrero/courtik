@@ -9,7 +9,11 @@ import {
   View,
 } from "react-native";
 
+// agrego para redirigir
+import { useRouter } from "expo-router"; // agreegado nuevo de redirigir 
+
 export default function RegisterScreen() {
+  const router = useRouter(); // agregado nuevo para iniciar el redireccionamiento 
   const [nombre, setNombre] = useState("");
   const [apodo, setApodo] = useState("");
   const [email, setEmail] = useState("");
@@ -21,6 +25,7 @@ export default function RegisterScreen() {
   const handleRegister = () => {
     console.log({ nombre, apodo, email, password });
     // lógica de la API para registrar usuario
+    router.replace("/login"); // agregado nuevo -- aca cuando el registro termina redirige al login
   };
 
   const getInputStyle = (fieldName) => [
