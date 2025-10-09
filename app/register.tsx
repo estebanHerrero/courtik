@@ -13,16 +13,17 @@ import {
 import { useRouter } from "expo-router"; // agreegado nuevo de redirigir 
 
 export default function RegisterScreen() {
+  //campos de formmulario 
   const router = useRouter(); // agregado nuevo para iniciar el redireccionamiento 
   const [nombre, setNombre] = useState("");
   const [apodo, setApodo] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); //esto controla si se va a mostrar la contraseña 
 
   const [focusedInput, setFocusedInput] = useState(null);
 
-  const handleRegister = () => {
+  const handleRegister = () => {   // esto es lo que maneja el registro del usuario
     console.log({ nombre, apodo, email, password });
     // lógica de la API para registrar usuario
     router.replace("/login"); // agregado nuevo -- aca cuando el registro termina redirige al login
