@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react"; // agregado: para usar useEffect
 import {
   Dimensions,
   FlatList,
@@ -13,9 +13,13 @@ import {
 } from "react-native";
 import AppText from "../components/AppText";
 
+//  Agregado para mapa y ubicación
+import * as Location from "expo-location"; // Esto es Para pedir permisos los de ubicación
+import MapView from "react-native-maps"; // Esto me Muestra el mapa
+
 const { width } = Dimensions.get("window");
 
-// Datos de ejemplo para las canchas
+//  Datos de ejemplo para las canchas
 const canchasData = [
   {
     id: 1,
@@ -54,7 +58,7 @@ const canchasData = [
 export default function HomeScreen() {
   const router = useRouter();
 
-  // Estados
+  //  Estados para fecha y hora
   const [date, setDate] = useState("");
   const [hour, setHour] = useState("");
   const [indoor, setIndoor] = useState(true);
@@ -65,6 +69,32 @@ export default function HomeScreen() {
   const [isDateFocused, setDateFocused] = useState(false);
   const [isHourFocused, setHourFocused] = useState(false);
 
+  //  Estado y efecto para la ubicación (agregue nuevo)
+  const [region, setRegion] = useState({
+    latitude: -34.6037, // Buenos Aires por defecto
+    longitude: -58.3816,
+    latitudeDelta: 0.05,
+    longitudeDelta: 0.05
+  });
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        console.log("Permiso de ubicación denegado");
+        return;
+      }
+      let location = await Location.getCurrentPositionAsync({});
+      setRegion({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 0.05,
+        longitudeDelta: 0.05
+      });
+    })();
+  }, []);
+
+  // Renderizado de tarjetas de canchas
   const renderCanchaCard = ({ item }) => (
     <View style={styles.card}>
       <Image
@@ -107,6 +137,7 @@ export default function HomeScreen() {
     </View>
   );
 
+  //  Render principal de la pantalla Home
   return (
     <View style={styles.container}>
       {/* HEADER */}
@@ -128,7 +159,7 @@ export default function HomeScreen() {
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false}>
-        {/* FORM */}
+        {/* FORMULARIO DE BÚSQUEDA */}
         <View style={styles.form}>
           {/* Input Fecha */}
           <TouchableOpacity
@@ -269,6 +300,18 @@ export default function HomeScreen() {
             decelerationRate="fast"
           />
         </View>
+
+        {/*  MAPA DE GEOLOCALIZACIÓN (nuevo bloque) */}
+        <View style={styles.mapContainer}>
+          <AppText variant="semibold" style={styles.sectionTitle}>
+            Ubicación Actual
+          </AppText>
+          <MapView
+            style={styles.map}
+            region={region}
+            showsUserLocation={true}
+          />
+        </View>
       </ScrollView>
 
       {/* BOTTOM NAV */}
@@ -281,6 +324,7 @@ export default function HomeScreen() {
   );
 }
 
+//  Estilos agregados 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#fff", padding: 16, paddingTop: 60 },
   header: {
@@ -424,5 +468,15 @@ const styles = StyleSheet.create({
   reserveBtnText: {
     color: "#fff",
     fontSize: 14
+  },
+
+  //  Para los Nuevos estilos del mapa
+  mapContainer: {
+    marginBottom: 20
+  },
+  map: {
+    width: "100%",
+    height: 200,
+    borderRadius: 12
   }
 });
