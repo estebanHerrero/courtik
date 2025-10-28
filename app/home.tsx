@@ -94,48 +94,61 @@ export default function HomeScreen() {
     })();
   }, []);
 
-  // Renderizado de tarjetas de canchas
-  const renderCanchaCard = ({ item }) => (
-    <View style={styles.card}>
-      <Image
-        source={
-          typeof item.imagen === "string" ? { uri: item.imagen } : item.imagen
-        }
-        style={styles.cardImage}
-      />
-      <View style={styles.cardContent}>
-        <AppText variant="semibold" style={styles.cardTitle}>
-          {item.nombre}
-        </AppText>
-        <AppText variant="regular" style={styles.cardSubTitle}>
-          {item.direccion}
-        </AppText>
-        <View style={styles.cardInfo}>
-          <AppText style={styles.cardPrice}>${item.precio}/hora</AppText>
-          <View style={styles.typeContainer}>
-            <Ionicons
-              name={item.tipo === "Indoor" ? "home-outline" : "sunny-outline"}
-              size={16}
-              color={item.tipo === "Indoor" ? "#00AEEF" : "#FF9800"}
-            />
-            <AppText
-              style={[
-                styles.cardType,
-                { color: item.tipo === "Indoor" ? "#00AEEF" : "#FF9800" }
-              ]}
-            >
-              {item.tipo}
-            </AppText>
-          </View>
-        </View>
-        <TouchableOpacity style={styles.reserveBtn}>
-          <AppText variant="semibold" style={styles.reserveBtnText}>
-            Reservar
+// Renderizado de tarjetas de canchas
+const renderCanchaCard = ({ item }) => (
+  <View style={styles.card}>
+    <Image
+      source={
+        typeof item.imagen === "string" ? { uri: item.imagen } : item.imagen
+      }
+      style={styles.cardImage}
+    />
+    <View style={styles.cardContent}>
+      <AppText variant="semibold" style={styles.cardTitle}>
+        {item.nombre}
+      </AppText>
+      <AppText variant="regular" style={styles.cardSubTitle}>
+        {item.direccion}
+      </AppText>
+      <View style={styles.cardInfo}>
+        <AppText style={styles.cardPrice}>${item.precio}/hora</AppText>
+        <View style={styles.typeContainer}>
+          <Ionicons
+            name={item.tipo === "Indoor" ? "home-outline" : "sunny-outline"}
+            size={16}
+            color={item.tipo === "Indoor" ? "#00AEEF" : "#FF9800"}
+          />
+          <AppText
+            style={[
+              styles.cardType,
+              { color: item.tipo === "Indoor" ? "#00AEEF" : "#FF9800" }
+            ]}
+          >
+            {item.tipo}
           </AppText>
-        </TouchableOpacity>
+        </View>
       </View>
+
+      {/* BOTÓN PARA RESERVAR */}
+      <TouchableOpacity style={styles.reserveBtn}>
+        <AppText variant="semibold" style={styles.reserveBtnText}>
+          Reservar
+        </AppText>
+      </TouchableOpacity>
+
+      {/* BOTÓN PARA INFO */}
+      <TouchableOpacity
+        style={[styles.reserveBtn, { backgroundColor: "#555", marginTop: 8 }]}
+        onPress={() => router.push("/InfoScreen")}
+      >
+        <AppText variant="semibold" style={styles.reserveBtnText}>
+          Ver más info
+        </AppText>
+      </TouchableOpacity>
     </View>
-  );
+  </View>
+);
+
 
   //  Render principal de la pantalla Home
   return (
@@ -314,6 +327,24 @@ export default function HomeScreen() {
         </View>
       </ScrollView>
 
+
+      {/* BOTÓN PARA ABRIR CÁMARA */}
+<View style={{ alignItems: "center", marginBottom: 20 }}>
+  <TouchableOpacity
+    style={styles.cameraBtn}
+    onPress={() => router.push("/court/camera")}
+  >
+    <Ionicons name="camera-outline" size={22} color="#fff" style={{ marginRight: 8 }} />
+    <AppText variant="semibold" style={{ color: "#fff", fontSize: 16 }}>
+      Abrir Cámara
+    </AppText>
+  </TouchableOpacity>
+</View>
+
+
+
+
+
       {/* BOTTOM NAV */}
       <View style={styles.bottomNav}>
         <Ionicons name="home-outline" size={28} color="#00AEEF" />
@@ -478,5 +509,20 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 200,
     borderRadius: 12
-  }
+  }, 
+
+  cameraBtn: {
+  flexDirection: "row",
+  alignItems: "center",
+  backgroundColor: "#00AEEF",
+  paddingVertical: 12,
+  paddingHorizontal: 24,
+  borderRadius: 25,
+  shadowColor: "#000",
+  shadowOpacity: 0.2,
+  shadowOffset: { width: 0, height: 2 },
+  shadowRadius: 3,
+  elevation: 3
+},
+
 });
