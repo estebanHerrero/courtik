@@ -1,8 +1,9 @@
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   Dimensions,
   FlatList,
   Image,
@@ -12,11 +13,12 @@ import {
   View
 } from "react-native";
 import AppText from "../components/AppText";
+import { supabase } from "../lib/supabase"; // <- usa tu lib/supabase.ts
 
 const { width } = Dimensions.get("window");
 
-// Datos de ejemplo para las canchas
-const canchasData = [
+// Datos de ejemplo (fallback)
+const canchasFallback = [
   {
     id: 1,
     nombre: "World Padel Center CABA",
@@ -39,7 +41,6 @@ const canchasData = [
     direccion: "Dr. Luis Beláustegui 3041",
     precio: 3200,
     tipo: "Indoor",
-    imagen: require("../assets/court3.avif")
   },
   {
     id: 4,
@@ -54,58 +55,104 @@ const canchasData = [
 export default function HomeScreen() {
   const router = useRouter();
 
-  // Estados
+  // Estados del formulario
   const [date, setDate] = useState("");
   const [hour, setHour] = useState("");
   const [indoor, setIndoor] = useState(true);
-
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showTimePicker, setShowTimePicker] = useState(false);
-
   const [isDateFocused, setDateFocused] = useState(false);
   const [isHourFocused, setHourFocused] = useState(false);
 
-  const renderCanchaCard = ({ item }) => (
-    <View style={styles.card}>
-      <Image
-        source={
-          typeof item.imagen === "string" ? { uri: item.imagen } : item.imagen
+  // Data desde Supabase (inicializo con fallback)
+  const [canchas, setCanchas] = useState<any[]>(canchasFallback);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        setLoading(true);
+        const { data, error } = await supabase
+          .from("courts")
+          .select("*")
+          .order("id", { ascending: true });
+
+        if (error) {
+          console.error("Supabase error:", error);
+          // mantenemos el fallback en caso de error
+        } else if (data && Array.isArray(data) && data.length > 0) {
+          // Ajuste: supabase devuelve images como text[] (URLs). adaptamos la estructura si hace falta.
+          setCanchas(data);
         }
-        style={styles.cardImage}
-      />
-      <View style={styles.cardContent}>
-        <AppText variant="semibold" style={styles.cardTitle}>
-          {item.nombre}
-        </AppText>
-        <AppText variant="regular" style={styles.cardSubTitle}>
-          {item.direccion}
-        </AppText>
-        <View style={styles.cardInfo}>
-          <AppText style={styles.cardPrice}>${item.precio}/hora</AppText>
-          <View style={styles.typeContainer}>
-            <Ionicons
-              name={item.tipo === "Indoor" ? "home-outline" : "sunny-outline"}
-              size={16}
-              color={item.tipo === "Indoor" ? "#00AEEF" : "#FF9800"}
-            />
-            <AppText
-              style={[
+      } catch (err) {
+        console.error("Error cargando canchas:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    load();
+  }, []);
+
+  const renderCanchaCard = ({ item }) => {
+    // Determinar la imagen: si hay item.images (array de URLs) usamos la primera; si item.imagen es string o require
+    const imgSource =
+      item?.images && Array.isArray(item.images) && item.images.length
+        ? { uri: item.images[0] }
+        : (typeof item.imagen === "string"
+            ? { uri: item.imagen }
+            : item.imagen);
+
+    return (
+      <View style={styles.card}>
+        <Image source={imgSource} style={styles.cardImage} />
+        <View style={styles.cardContent}>
+          <AppText variant="semibold" style={styles.cardTitle}>
+            {item.nombre}
+          </AppText>
+
+          <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+            <AppText variant="regular" style={{ fontSize: 13, flexShrink: 1 }}>
+              {item.direccion}
+            </AppText>
+
+            <TouchableOpacity
+              onPress={() => router.push(`/infocourt/${item.id}`)}
+              style={{ marginLeft: 6 }}
+              accessibilityLabel={`Más información sobre ${item.nombre}`}
+            >
+              <Ionicons name="information-circle-outline" size={22} color="#333" />
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.cardInfo}>
+            <AppText style={styles.cardPrice}>
+              ${item.precio}/hora
+            </AppText>
+            <View style={styles.typeContainer}>
+              <Ionicons
+                name={item.tipo === "Indoor" ? "home-outline" : "sunny-outline"}
+                size={16}
+                color={item.tipo === "Indoor" ? "#00AEEF" : "#FF9800"}
+              />
+              <AppText style={[
                 styles.cardType,
                 { color: item.tipo === "Indoor" ? "#00AEEF" : "#FF9800" }
-              ]}
-            >
-              {item.tipo}
-            </AppText>
+              ]}>
+                {item.tipo}
+              </AppText>
+            </View>
           </View>
+
+          <TouchableOpacity style={styles.reserveBtn}>
+            <AppText variant="semibold" style={styles.reserveBtnText}>
+              Reservar
+            </AppText>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.reserveBtn}>
-          <AppText variant="semibold" style={styles.reserveBtnText}>
-            Reservar
-          </AppText>
-        </TouchableOpacity>
       </View>
-    </View>
-  );
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -225,22 +272,14 @@ export default function HomeScreen() {
               style={[styles.toggleBtn, indoor && styles.toggleBtnActive]}
               onPress={() => setIndoor(true)}
             >
-              <AppText
-                style={indoor ? styles.toggleTextActive : styles.toggleText}
-              >
-                Indoor
-              </AppText>
+              <AppText style={indoor ? styles.toggleTextActive : styles.toggleText}>Indoor</AppText>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={[styles.toggleBtn, !indoor && styles.toggleBtnActive]}
               onPress={() => setIndoor(false)}
             >
-              <AppText
-                style={!indoor ? styles.toggleTextActive : styles.toggleText}
-              >
-                Outdoor
-              </AppText>
+              <AppText style={!indoor ? styles.toggleTextActive : styles.toggleText}>Outdoor</AppText>
             </TouchableOpacity>
           </View>
 
@@ -257,17 +296,22 @@ export default function HomeScreen() {
           <AppText variant="semibold" style={styles.sectionTitle}>
             Canchas Disponibles
           </AppText>
-          <FlatList
-            data={canchasData}
-            renderItem={renderCanchaCard}
-            keyExtractor={(item) => item.id.toString()}
-            horizontal
-            nestedScrollEnabled
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.carouselContainer}
-            snapToInterval={width * 0.8 + 16}
-            decelerationRate="fast"
-          />
+
+          {loading ? (
+            <ActivityIndicator style={{ marginVertical: 40 }} />
+          ) : (
+            <FlatList
+              data={canchas}
+              renderItem={renderCanchaCard}
+              keyExtractor={(item) => item.id.toString()}
+              horizontal
+              nestedScrollEnabled
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.carouselContainer}
+              snapToInterval={width * 0.8 + 16}
+              decelerationRate="fast"
+            />
+          )}
         </View>
       </ScrollView>
 
@@ -302,6 +346,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     height: 50,
     backgroundColor: "#fff"
+  },
+  input: {
+    flex: 1,
+    fontSize: 16,
+    color: "#333",
+    paddingVertical: 10
   },
   inputIcon: { marginLeft: 8 },
 
@@ -359,16 +409,11 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     color: "#0B0F14"
   },
-  cardSubTitle: {
-    fontSize: 12,
-    marginBottom: 12,
-    color: "#333"
-  },
   carouselContainer: {
     paddingLeft: 0
   },
   card: {
-    width: width * 0.7,
+    width: width * 0.6,
     backgroundColor: "#fff",
     borderRadius: 12,
     marginRight: 16,
@@ -392,7 +437,6 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 16,
     color: "#0B0F14",
-    marginBottom: 8
   },
   cardInfo: {
     flexDirection: "row",
@@ -423,6 +467,6 @@ const styles = StyleSheet.create({
   },
   reserveBtnText: {
     color: "#fff",
-    fontSize: 14
-  }
+    fontSize: 14,
+  },
 });
