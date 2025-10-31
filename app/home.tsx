@@ -15,7 +15,7 @@ import {
 import AppText from "../components/AppText";
 import { supabase } from "../lib/supabase"; // <- usa tu lib/supabase.ts
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get("window");
 
 // Datos de ejemplo (fallback)
 const canchasFallback = [
@@ -164,7 +164,12 @@ export default function HomeScreen() {
           resizeMode="contain"
         />
         <View style={styles.headerRight}>
-          <Ionicons name="person-circle-outline" size={30} color="#0B0F14" style={{ marginRight: 12 }} />
+          <Ionicons
+            name="person-circle-outline"
+            size={30}
+            color="#0B0F14"
+            style={{ marginRight: 12 }}
+          />
           <Ionicons name="menu" size={28} color="#0B0F14" />
         </View>
       </View>
@@ -182,10 +187,21 @@ export default function HomeScreen() {
             onFocus={() => setDateFocused(true)}
             onBlur={() => setDateFocused(false)}
           >
-            <AppText style={{ flex: 1, fontSize: 16, color: date ? "#333" : "#555" }}>
+            <AppText
+              style={{
+                flex: 1,
+                fontSize: 16,
+                color: date ? "#333" : "#555"
+              }}
+            >
               {date || "¿Qué día querés jugar?"}
             </AppText>
-            <Ionicons name="calendar-outline" size={20} color="#00AEEF" style={styles.inputIcon} />
+            <Ionicons
+              name="calendar-outline"
+              size={20}
+              color="#00AEEF"
+              style={styles.inputIcon}
+            />
           </TouchableOpacity>
 
           {showDatePicker && (
@@ -210,10 +226,21 @@ export default function HomeScreen() {
             onFocus={() => setHourFocused(true)}
             onBlur={() => setHourFocused(false)}
           >
-            <AppText style={{ flex: 1, fontSize: 16, color: hour ? "#333" : "#555" }}>
+            <AppText
+              style={{
+                flex: 1,
+                fontSize: 16,
+                color: hour ? "#333" : "#555"
+              }}
+            >
               {hour || "¿A qué hora?"}
             </AppText>
-            <Ionicons name="time-outline" size={20} color="#00AEEF" style={styles.inputIcon} />
+            <Ionicons
+              name="time-outline"
+              size={20}
+              color="#00AEEF"
+              style={styles.inputIcon}
+            />
           </TouchableOpacity>
 
           {showTimePicker && (
@@ -225,8 +252,14 @@ export default function HomeScreen() {
               onChange={(event, selectedTime) => {
                 setShowTimePicker(false);
                 if (selectedTime) {
-                  const h = selectedTime.getHours().toString().padStart(2, "0");
-                  const m = selectedTime.getMinutes().toString().padStart(2, "0");
+                  const h = selectedTime
+                    .getHours()
+                    .toString()
+                    .padStart(2, "0");
+                  const m = selectedTime
+                    .getMinutes()
+                    .toString()
+                    .padStart(2, "0");
                   setHour(`${h}:${m}`);
                 }
               }}
@@ -294,8 +327,12 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#fff", padding: 16, paddingTop: 60 },
-
-  header: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 20 },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 20
+  },
   logo: { width: 120, height: 60, marginBottom: 8 },
   headerRight: { flexDirection: "row", alignItems: "center" },
 
@@ -318,13 +355,22 @@ const styles = StyleSheet.create({
   },
   inputIcon: { marginLeft: 8 },
 
-  switchWrapper: { flexDirection: "row", alignItems: "center", marginBottom: 20 },
-  switchLabel: { marginLeft: 8, fontSize: 14, color: "#333" },
-
-  searchBtn: { backgroundColor: "#00AEEF", paddingVertical: 14, alignItems: "center", borderRadius: 25 },
+  searchBtn: {
+    backgroundColor: "#00AEEF",
+    paddingVertical: 14,
+    alignItems: "center",
+    borderRadius: 25
+  },
   searchBtnText: { color: "#fff", fontSize: 18, letterSpacing: 1 },
 
-  bottomNav: { flexDirection: "row", justifyContent: "space-around", paddingVertical: 12, borderTopWidth: 1, borderColor: "#eee", marginTop: "auto" },
+  bottomNav: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    paddingVertical: 12,
+    borderTopWidth: 1,
+    borderColor: "#eee",
+    marginTop: "auto"
+  },
 
   toggleWrapper: {
     flexDirection: "row",
@@ -334,7 +380,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     borderWidth: 1,
     borderColor: "#00AEEF",
-    width: "50%",
+    width: "50%"
   },
   toggleBtn: {
     flex: 1,
@@ -347,24 +393,24 @@ const styles = StyleSheet.create({
   },
   toggleText: {
     color: "#00AEEF",
-    fontSize: 14,
+    fontSize: 14
   },
   toggleTextActive: {
     color: "#fff",
-    fontSize: 14,
+    fontSize: 14
   },
 
   // Estilos del carousel
   resultsSection: {
-    marginBottom: 20,
+    marginBottom: 20
   },
   sectionTitle: {
     fontSize: 18,
     marginBottom: 15,
-    color: "#0B0F14",
+    color: "#0B0F14"
   },
   carouselContainer: {
-    paddingLeft: 0,
+    paddingLeft: 0
   },
   card: {
     width: width * 0.6,
@@ -372,24 +418,21 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     marginRight: 16,
     shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
     borderColor: "#7B94A4",
-    borderWidth: 1,
+    borderWidth: 1
   },
   cardImage: {
     width: "100%",
     height: 160,
     borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
+    borderTopRightRadius: 12
   },
   cardContent: {
-    padding: 16,
+    padding: 16
   },
   cardTitle: {
     fontSize: 16,
@@ -399,28 +442,28 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 12,
+    marginBottom: 12
   },
   cardPrice: {
     fontSize: 18,
     color: "#00AEEF",
-    fontWeight: "600",
+    fontWeight: "600"
   },
   typeContainer: {
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "center"
   },
   cardType: {
     fontSize: 14,
     marginLeft: 4,
-    fontWeight: "500",
+    fontWeight: "500"
   },
   reserveBtn: {
     backgroundColor: "#00AEEF",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 8,
-    alignItems: "center",
+    alignItems: "center"
   },
   reserveBtnText: {
     color: "#fff",

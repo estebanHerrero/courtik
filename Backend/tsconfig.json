@@ -1,0 +1,53 @@
+{
+  // Visit https://aka.ms/tsconfig to read more about this file
+  "compilerOptions": {
+     // === Directorios de entrada/salida ===
+    "rootDir": "./src", //carpeta donde esta el codigo 
+    "outDir": "./dist", // carpeta donde se generan los codigos js
+    // File Layout
+    // "rootDir": "./src",
+    // "outDir": "./dist",
+
+    // Environment Settings
+    // See also https://aka.ms/tsconfig/module
+    // == entorno de los modulos ==
+    "module": "nodenext", //es para el import/export
+    "target": "esnext", //genera el js para que sea compatible con node
+    "moduleResolution": "node", // este resuelve los imports 
+    "esModuleInterop": true, // este deja usar los import  por ejemplo import express from 
+    "types": ["node"], // es el tipo de node fs, path
+    // For nodejs:
+    // "lib": ["esnext"],
+    // "types": ["node"],
+    // and npm install -D @types/node
+
+    // Other Outputs
+    // = salida y mapas =
+    "sourceMap": true, // genera los mapas para debugear
+    "declaration": true, //genera los archivos d.ts -tipos-
+    "declarationMap": true, // genera los mapas para los d.ts
+
+    // Stricter Typechecking Options
+    //== checheo estricto ==
+    "strict": true,  //activa todas las opciones / comprobaciones estrictas 
+    "noUncheckedIndexedAccess": true, //mas seguridad en los arrays/objetos
+    "exactOptionalPropertyTypes": true,
+
+    // Style Options
+    // "noImplicitReturns": true,
+    // "noImplicitOverride": true,
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    // "noFallthroughCasesInSwitch": true,
+    // "noPropertyAccessFromIndexSignature": true,
+
+    // Recommended Options
+    // == opciones recomendadas varias==
+    "jsx": "react-jsx",
+    "isolatedModules": true, // herrama parecida al ts-node
+    "moduleDetection": "force", //asegura modo de nodulos 
+    "skipLibCheck": true, // omite revison de libs para compilar mas rapido 
+  },
+  // archivos para incluir en la compilacion 
+   "include": ["src"]
+}
